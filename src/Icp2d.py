@@ -45,9 +45,11 @@ def icp(d1, d2, max_iterate = 100):
     src = np.array([d1.T], copy=True).astype(np.float32)
     dst = np.array([d2.T], copy=True).astype(np.float32)
     
-    knn = cv2.KNearest()
+    # knn = cv2.KNearest()
+    knn = cv2.ml.KNearest_create()
+
     responses = np.array(range(len(d2[0]))).astype(np.float32)
-    knn.train(src[0], responses)
+    knn.train(src[0], cv2.ml.ROW_SAMPLE, responses)
         
     Tr = np.array([[np.cos(0), -np.sin(0), 0],
                    [np.sin(0), np.cos(0),  0],
@@ -61,7 +63,7 @@ def icp(d1, d2, max_iterate = 100):
     scale = max(scale_x, scale_y)
        
     for i in range(max_iterate):
-        ret, results, neighbours, dist = knn.find_nearest(dst[0], 1)
+        ret, results, neighbours, dist = knn.findNearest(dst[0], 1)
         
         indeces = results.astype(np.int32).T     
         indeces = del_miss(indeces, dist, max_dist)  
