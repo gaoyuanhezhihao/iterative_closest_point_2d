@@ -25,7 +25,7 @@ void plot_match(const cv::Mat & target, const cv::Mat & src, const cv::Mat & mat
         y.push_back(target.at<float>(mi, 1));
     }
     
-    plt::plot(x, y, "ro-");
+    plt::plot(x, y, "yo-");
 }
 
 void plot_pts(PointMat & pts, string style) {
@@ -39,9 +39,27 @@ void plot_pts(PointMat & pts, string style) {
     plt::plot(x, y, style);
 }
 
+void plot_pts(const cv::Mat & pts, string style) {
+    const int N = pts.rows;
+    vector<double> x(N), y(N);
+    for(int i = 0; i < N; ++i) {
+        x[i] = pts.at<float>(i, 0);
+        y[i] = pts.at<float>(i, 1);
+    }
+
+    plt::plot(x, y, style);
+}
+
 void plot_save(const string & fn) {
     plt::save(fn);
 }
 void plot_figure_size(const int r, const int c) {
     plt::figure_size(r, c);
+}
+void plot_xlim(const double xl, const double xr) {
+    plt::xlim(xl, xr);
+}
+
+void plot_ylim(const double yl, const double yr) {
+    plt::ylim(yl, yr);
 }
